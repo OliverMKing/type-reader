@@ -10,6 +10,12 @@ const App = () => {
   const [words, setWords] = useState([]);
   const [currWordIndex, setCurrWordIndex] = useState(0);
 
+  // TODO: Track and display words per minute
+
+  // TODO: Keep words per minute high score in chrome.storage
+  // https://developer.chrome.com/apps/storage
+
+  // TODO: Handle last word entered (display "done reading / typing")
   const onUserInput = (e) => {
     if (e.target.value === words[currWordIndex] + " ") {
       // Move to next word
@@ -39,6 +45,7 @@ const App = () => {
     }
   }, []);
 
+  // TODO: Make this handle the end of the word array (will out of bounds)
   const getLineWords = (line = 1, generatedWords = wordsPerLine) => {
     const startIndex =
       (Math.floor(currWordIndex / wordsPerLine) + line - 1) * wordsPerLine;
@@ -50,6 +57,7 @@ const App = () => {
     return lineWords;
   };
 
+  // TODO: Style this with Material UI or tailwind
   return (
     <div className="App">
       <h1>Type Reader</h1>
