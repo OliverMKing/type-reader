@@ -35,3 +35,12 @@
   color: blue;
   font-weight: bold;
 }
+
+.typeText {
+  text-align: left;
+  display: block;
+  text-overflow: clip;
+  overflow: hidden;
+  max-height: 3.6em;
+  line-height: 1.8em;
+}

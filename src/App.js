@@ -5,6 +5,7 @@ import { Readability } from "@mozilla/readability";
 import "./App.css";
 
 const App = () => {
+  const wordsPerLine = 8;
   const [input, setInput] = useState("");
   const [words, setWords] = useState([]);
   const [currWordIndex, setCurrWordIndex] = useState(0);
@@ -38,11 +39,11 @@ const App = () => {
     }
   }, []);
 
-  const getCurrentLineWords = () => {
-    const wordsPerLine = 5;
-    const startIndex = Math.floor(currWordIndex / wordsPerLine) * wordsPerLine;
+  const getLineWords = (line = 1, generatedWords = wordsPerLine) => {
+    const startIndex =
+      (Math.floor(currWordIndex / wordsPerLine) + line - 1) * wordsPerLine;
     let lineWords = [];
-    for (let i = 0; i < wordsPerLine; i++) {
+    for (let i = 0; i < generatedWords; i++) {
       const index = startIndex + i;
       lineWords.push({ word: words[index], index });
     }
@@ -51,15 +52,28 @@ const App = () => {
 
   return (
     <div className="App">
-      <h1>Type Racer</h1>
-      <p>Learn to type effortlessly</p>
-      {words.length > 0 &&
-        getCurrentLineWords().map((x) => {
-          if (x.index === currWordIndex) {
-            return <span className="currWord">{x.word} </span>;
-          }
-          return <span>{x.word} </span>;
-        })}
+      <h1>Type Reader</h1>
+      <p className="typeText">
+        {
+          /* Display current line with current word highlighted */
+          words.length > 0 &&
+            getLineWords(1).map((x) => {
+              if (x.index === currWordIndex) {
+                return <span className="currWord">{x.word} </span>;
+              }
+              return <span>{x.word} </span>;
+            })
+        }
+        <br />
+        {
+          /* Display second line */
+          words.length > 0 &&
+            getLineWords(2).map((x) => {
+              return <span>{x.word} </span>;
+            })
+        }
+        <br />
+      </p>
       <br />
       {words.length > 0 && <input value={input} onChange={onUserInput}></input>}
     </div>
