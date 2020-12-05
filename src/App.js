@@ -9,10 +9,14 @@ const App = () => {
 
   const onClick = () => {
     const article = new Readability(document).parse();
-    console.log(
-      new DOMParser().parseFromString(article.content, "text/html").body
-        .innerText
-    );
+    const text = new DOMParser()
+      .parseFromString(article.content, "text/html")
+      .body.innerText.replace(/\s+/g, " ");
+    // Generate a word array
+    // There shouldn't be any words over 31 letters so those are usually mistakes
+    const wordArr = text
+      .split(" ")
+      .filter((word) => word.length > 0 && word.length < 31);
   };
 
   return (
