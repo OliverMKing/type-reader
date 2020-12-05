@@ -1,15 +1,18 @@
 /*global chrome*/
 
 import React, { useState } from "react";
+import { Readability } from "@mozilla/readability";
 import "./App.css";
 
 const App = () => {
   const [page, setPage] = useState(0);
 
   const onClick = () => {
-    const body = document.body.innerText;
-    console.log(body);
-    setPage(body);
+    const article = new Readability(document).parse();
+    console.log(
+      new DOMParser().parseFromString(article.content, "text/html").body
+        .innerText
+    );
   };
 
   return (
