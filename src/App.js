@@ -10,7 +10,7 @@ const App = () => {
   const [currWordIndex, setCurrWordIndex] = useState(0);
 
   const onUserInput = (e) => {
-    if (e.target.value === words[currWordIndex]) {
+    if (e.target.value === words[currWordIndex] + " ") {
       // Move to next word
       setCurrWordIndex(currWordIndex + 1);
       setInput("");
@@ -38,11 +38,28 @@ const App = () => {
     }
   }, []);
 
+  const getCurrentLineWords = () => {
+    const wordsPerLine = 5;
+    const startIndex = Math.floor(currWordIndex / wordsPerLine) * wordsPerLine;
+    let lineWords = [];
+    for (let i = 0; i < wordsPerLine; i++) {
+      const index = startIndex + i;
+      lineWords.push({ word: words[index], index });
+    }
+    return lineWords;
+  };
+
   return (
     <div className="App">
       <h1>Type Racer</h1>
       <p>Learn to type effortlessly</p>
-      {words.length > 0 && words[currWordIndex]}
+      {words.length > 0 &&
+        getCurrentLineWords().map((x) => {
+          if (x.index === currWordIndex) {
+            return <span className="currWord">{x.word} </span>;
+          }
+          return <span>{x.word} </span>;
+        })}
       <br />
       {words.length > 0 && <input value={input} onChange={onUserInput}></input>}
     </div>
