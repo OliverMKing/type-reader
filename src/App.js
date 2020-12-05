@@ -1,13 +1,25 @@
 /*global chrome*/
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Readability } from "@mozilla/readability";
 import "./App.css";
 
 const App = () => {
-  const [page, setPage] = useState(0);
+  const [input, setInput] = useState("");
+  const [words, setWords] = useState([]);
+  const [currWordIndex, setCurrWordIndex] = useState(0);
 
-  const onClick = () => {
+  const onUserInput = (e) => {
+    if (e.target.value === words[currWordIndex]) {
+      // Move to next word
+      setCurrWordIndex(currWordIndex + 1);
+      setInput("");
+    } else {
+      setInput(e.target.value);
+    }
+  };
+
+  useEffect(() => {
     try {
       const clonedDom = document.cloneNode(true);
       const article = new Readability(clonedDom).parse();
@@ -19,17 +31,20 @@ const App = () => {
       const wordArr = text
         .split(" ")
         .filter((word) => word.length > 0 && word.length < 31);
+      setWords(wordArr);
     } catch (err) {
       // TODO: Add better error handling
       console.log(err);
     }
-  };
+  }, []);
 
   return (
     <div className="App">
       <h1>Type Racer</h1>
       <p>Learn to type effortlessly</p>
-      <button onClick={onClick}></button>
+      {words.length > 0 && words[currWordIndex]}
+      <br />
+      {words.length > 0 && <input value={input} onChange={onUserInput}></input>}
     </div>
   );
 };
