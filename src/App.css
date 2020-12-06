@@ -44,3 +44,7 @@
   max-height: 3.6em;
   line-height: 1.8em;
 }
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
