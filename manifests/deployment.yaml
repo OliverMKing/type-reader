@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: asdfasf
+  labels:
+    app: asdfasf
+  namespace: namespace-workflow-1688142006366
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: asdfasf
+  template:
+    metadata:
+      labels:
+        app: asdfasf
+    spec:
+      containers:
+        - name: asdfasf
+          image: acrworkflow1688142006366.azurecr.io/image-workflow-1688142006366:latest
+          ports:
+            - containerPort: 3000
